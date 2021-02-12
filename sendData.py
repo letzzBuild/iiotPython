@@ -13,7 +13,7 @@ import configuration as config
 conn2=sqlite3.connect(config.DATABASENAME)
 
 #create a cursor object to exceute all sql queries
-curs2=conn2.cursor()
+curs2=conn2.cursor('PRAGMA journal_mode=wal')
 
 
 
@@ -107,7 +107,7 @@ def SendProductionData(endpoint):
            if(str(formatted_time) == "7:00:00" or str(formatted_time) == "7:00:01" or str(formatted_time) == "7:00:02"):
                curs2.execute("delete from production")
                conn2.commit()
-           productionLastRow=curs2.execute("SELECT MAX(id) FROM production")
+           productionLastRow=curs2.execute("SELECT * FROM production order by id desc")
            if productionLastRow is not None:
              jobProgress=curs2.fetchone()[13]
              if jobProgress=='finished':
@@ -137,7 +137,7 @@ def SendProductionData(endpoint):
                         response=req.post(endpoint,timeout=2,data=data)
                         if(response.status_code>=200 and response.status_code<=206):
                               curs2.execute("update production_status set value=(?) where id=(?)",(Id,1))
-                              print("{} entry updated..").format(Id)
+                              print("{} entry updated..".format(Id))
                               conn2.commit()
                         else:
                               print("didnot get good response from server")

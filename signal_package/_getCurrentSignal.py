@@ -99,7 +99,7 @@ def insertSignalToLocalDb(self,machineId,process,timeStamp):
 def productionOk(self,progress):
       data=self.cursor.execute("SELECT MAX(id) FROM production")
       lastId=self.cursor.fetchone()[0]
-      sql="update production set status=? progress=? where id=?"
+      sql="update production set status=?,progress=? where id=?"
       values=("1",progress,lastId)
       try:
           result=self.cursor.execute(sql,values)
