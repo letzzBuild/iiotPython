@@ -107,9 +107,10 @@ def SendProductionData(endpoint):
            if(str(formatted_time) == "7:00:00" or str(formatted_time) == "7:00:01" or str(formatted_time) == "7:00:02"):
                curs2.execute("delete from production")
                conn2.commit()
-           curs2.execute("SELECT MAX(id) FROM production")
-           jobProgress=curs2.fetchone()[13]
-           if jobProgress=='finished':
+           productionLastRow=curs2.execute("SELECT MAX(id) FROM production")
+           if productionLastRow is not None:
+             jobProgress=curs2.fetchone()[13]
+             if jobProgress=='finished':
                 curs2.execute("select * from production_status")
                 idNo=curs2.fetchone()[1]
                 print("Production Last value : " + str(idNo))

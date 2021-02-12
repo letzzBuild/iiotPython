@@ -57,7 +57,7 @@ def getCurrentSignal(self,InputPin,processOn,processOff):
             TEMP_PRODUCTION_ARRAY.append(process)
             updateLiveStatus(self,LIVE_STATUS_CODES['cycle'],"Cycle","green")
             #update progress of job as job running
-            jobProgress("running")
+            jobProgress(self,"running")
                                       
         else:
             pass
@@ -74,7 +74,7 @@ def getCurrentSignal(self,InputPin,processOn,processOff):
             holdMachine(self,)
         if (process=="cycleOFF"):
             #update progress of job has finished 
-            jobProgress("finished")
+            jobProgress(self,"finished")
 
         elif process=="m30OFF":
             TEMP_PRODUCTION_ARRAY.append(process)
