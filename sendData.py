@@ -104,23 +104,20 @@ def SendProductionData(endpoint):
            curr_time = datetime.now()
            formatted_time = curr_time.strftime('%H:%M:%S')
            print("$$$$$$$$$$$$$$$$$",formatted_time)
-           if(str(formatted_time) == "16:00:00" or str(formatted_time) == "16:00:01" or str(formatted_time) == "16:00:02"):
+           if(str(formatted_time) == "7:00:00" or str(formatted_time) == "7:00:01" or str(formatted_time) == "7:00:02"):
                curs2.execute("delete from production")
                conn2.commit()
-           curs2.execute("select * from live_status")
-           liveStatusResult=curs2.fetchone()
-           if liveStatusResult is not None: 
-              signalName=liveStatusResult[5]
-              if signalName=='Machine Idle':
-                   curs2.execute("select * from production_status")
-                   idNo=curs2.fetchone()[1]
-                   print("Production Last value : " + str(idNo))
-                   curs2.execute("select * from production where id>(?) ",(idNo,))
-                   result=curs2.fetchall()           
-                   if result is not None:
-                     data={}                     
-                     for colm in result:
-                        sleep(4)
+           curs2.execute("SELECT MAX(id) FROM production")
+           jobProgress=curs2.fetchone()[13]
+           if jobProgress=='finished':
+                curs2.execute("select * from production_status")
+                idNo=curs2.fetchone()[1]
+                print("Production Last value : " + str(idNo))
+                curs2.execute("select * from production where id>(?) ",(idNo,))
+                result=curs2.fetchall()           
+                if result is not None:
+                    data={}                     
+                    for colm in result:
                         Id=colm[0]
                         data["ID"]=colm[0]
                         data["OperatorName"]=colm[1]
@@ -144,7 +141,7 @@ def SendProductionData(endpoint):
                         else:
                               print("didnot get good response from server")
                               return        
-                   else:
+                else:
                        print("no data to send ...")
    except Exception as e:
             print("Exception occured : ",e)

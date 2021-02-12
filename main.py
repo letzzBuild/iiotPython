@@ -4,6 +4,7 @@ import configuration as conf
 #importing api.py and sendData.py to creat paralell process
 import api as api_run
 import sendData as sendData_run
+from time import sleep
 
 #importing multiprocessing library
 import multiprocessing as mp  
@@ -45,8 +46,8 @@ def process_of_sendData():
         #Function call of 'SendAlarmData' Function
         #sendData_run.SendAlarmData("http://"+conf.SERVER_IP+conf.SERVER_ENDPOINT_START+"/AlarmInfo")
         
-        #wait for 2 seconds 
-        sleep(2)
+        #wait for 4 seconds 
+        sleep(4)
 
 
 #Creating a multiprocesses of function

@@ -31,6 +31,7 @@ class production(db.Model):
     timeStamp = db.Column(db.String)
     machineId = db.Column(db.String)
     date = db.Column(db.String)
+    progress=db.Column(db.String)
 
 
 class liveStatus(db.Model):

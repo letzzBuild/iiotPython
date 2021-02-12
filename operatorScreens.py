@@ -170,7 +170,7 @@ def operatorScreen():
     else:
          date=CurrentDate
     presentDate=date.strftime("%Y-%m-%d")
-    productionObj=production(operatorName=username,jobId=jobId,shift=shift,component=component,modelName=model,operation=operation,cycleTime="5.5",inspectionStatus="0",status="0",timeStamp=var_time,machineId=machineId,date=presentDate)
+    productionObj=production(operatorName=username,jobId=jobId,shift=shift,component=component,modelName=model,operation=operation,cycleTime="5.5",inspectionStatus="0",status="0",timeStamp=var_time,machineId=machineId,date=presentDate,progress="not started")
     try:
          db.session.add(productionObj)
          db.session.commit()

@@ -55,7 +55,10 @@ def getCurrentSignal(self,InputPin,processOn,processOff):
         elif process=="cycleON":
             TEMP_PRODUCTION_ARRAY.clear()
             TEMP_PRODUCTION_ARRAY.append(process)
-            updateLiveStatus(self,LIVE_STATUS_CODES['cycle'],"Cycle","green")                          
+            updateLiveStatus(self,LIVE_STATUS_CODES['cycle'],"Cycle","green")
+            #update progress of job as job running
+            jobProgress("running")
+                                      
         else:
             pass
 
@@ -69,11 +72,17 @@ def getCurrentSignal(self,InputPin,processOn,processOff):
         if (process=="emergencyOFF" or process=="cycleOFF" or process=="alarmOFF"):
             updateLiveStatus(self,LIVE_STATUS_CODES['machineIdle'],"Machine Idle","orange") 
             holdMachine(self,)
+        if (process=="cycleOFF"):
+            #update progress of job has finished 
+            jobProgress("finished")
+
         elif process=="m30OFF":
             TEMP_PRODUCTION_ARRAY.append(process)
             if(PRODUCTION_ARRAY==TEMP_PRODUCTION_ARRAY[0:2]):
                print("Array matched")
-               productionOk(self,)                                                                       
+               #make production status as 1 and progress as job finished
+               productionOk(self,"finished")
+
         else:
             pass
 
@@ -87,19 +96,30 @@ def insertSignalToLocalDb(self,machineId,process,timeStamp):
       except:
           print("unable to insert into local database")
 
-def productionOk(self,):
-      timeObj = datetime.now()
-      timeStamp=timeObj.strftime("%Y/%m/%d %H:%M:%S")
+def productionOk(self,progress):
       data=self.cursor.execute("SELECT MAX(id) FROM production")
       lastId=self.cursor.fetchone()[0]
-      sql="update production set status=?,timeStamp=? where id=?"
-      values=("1",timeStamp,lastId)
+      sql="update production set status=? progress=? where id=?"
+      values=("1",progress,lastId)
       try:
           result=self.cursor.execute(sql,values)
           self.connection.commit()
           print("updated status  1 to last production job ")
       except:   
           print("failed to update status  1 to last production job")
+
+def jobProgress(self,progress):
+      data=self.cursor.execute("SELECT MAX(id) FROM production")
+      lastId=self.cursor.fetchone()[0]
+      sql="update production set progress=? where id=?"
+      values=(progress,lastId)
+      try:
+          result=self.cursor.execute(sql,values)
+          self.connection.commit()
+          print("updated progress as {} to last production job ".format(progress))
+      except:   
+          print("failed to update progress of job to last production job")
+
 
 def updateLiveStatus(self,status,signal,color):
       try:
