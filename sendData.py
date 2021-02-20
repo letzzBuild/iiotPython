@@ -41,6 +41,7 @@ def SendAlarmData(endpoint):
                  data["Operation"]=colm[7]
                  data["TimeStamp"]=colm[8]
                  data["Reason"]=colm[9]
+                 data['ErrorCode']=colm[10]
                  response=req.post(endpoint,data=data,timeout=2)
                  if(response.status_code>=200 and response.status_code<=206):
                          curs2.execute("delete from alarm where id=(?)",(Id,))

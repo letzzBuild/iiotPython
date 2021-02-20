@@ -197,13 +197,14 @@ def alarmScreen():
     operation=result['operationName']  
     machineId=result['machineId']    
     reason=result['alarmReason']
+    errorCode=result['errorCode']
     if result['jobId'] != "":
         jobId=result['jobId']
     else:
         jobId="No Job Placed"
     timeObj = datetime.now()
     time=timeObj.strftime("%Y/%m/%d %H:%M:%S")
-    alarmObj=alarm(operatorName=username,jobId=jobId,shift=shift,component=component,modelName=model,operation=operation,timeStamp=time,machineId=machineId,reason=reason) 
+    alarmObj=alarm(operatorName=username,jobId=jobId,shift=shift,component=component,modelName=model,operation=operation,timeStamp=time,machineId=machineId,reason=reason,errorCode=errorCode) 
     try:
          db.session.add(alarmObj)
          db.session.commit()

@@ -61,6 +61,7 @@ class alarm(db.Model):
     operation = db.Column(db.String)
     timeStamp = db.Column(db.String)
     reason = db.Column(db.String)
+    errorCode = db.Column(db.String)
 
 
 class idleTimeout(db.Model):
