@@ -5,6 +5,7 @@ import configuration as conf
 import api as api_run
 import sendData as sendData_run
 from time import sleep
+import networkCheck as network_check
 
 #importing multiprocessing library
 import multiprocessing as mp  
@@ -49,20 +50,26 @@ def process_of_sendData():
         #wait for 4 seconds 
         sleep(4)
 
+def process_of_network_check():
+    #call the check network connection from networkCheck file
+    network_check.checkNetworkConnection()
+    
 
 #Creating a multiprocesses of function
 p1 = mp.Process(target = process_of_api)
 p2 = mp.Process(target = process_of_main)
 p3 = mp.Process(target = process_of_sendData)
+p4 = mp.Process(target = process_of_network_check)
 
 #Start executing the code inside the target function parllelly
 p1.start()
 p2.start()
 p3.start()
+p4.start()
 
 #wait untill the complition of processes
-
 p1.join()
 p2.join()
 p3.join()
+p4.join()
 
