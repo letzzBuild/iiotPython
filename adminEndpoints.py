@@ -25,12 +25,11 @@ def serverConfiguration():
   try:
       result=serverConf.query.filter_by(id=1).scalar()
       if result!=None:
-          db.session.query(serverConf).filter(serverConf.id == 1).update({serverConf.endpoint:endpoint})
-          result.endpoint=endpoint
+          db.session.query(serverConf).filter(serverConf.id == 1).update({serverConf.ip:endpoint})
           db.session.commit()
           return jsonify({"result":{"message":"server credentials updated successfully","status":1}})
       else:
-          serverConfObj=serverConf(id=1,endpoint=endpoint)
+          serverConfObj=serverConf(id=1,ip=endpoint)
           db.session.add(serverConfObj) 
           db.session.commit()
           return jsonify({"result":{"message":"server credentials saved successfully","status":1}})  

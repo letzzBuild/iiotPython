@@ -98,23 +98,7 @@ def loadScreen():
    except:
        print("something went wrong while getting shift data...." )
 
-   #response data will be stored in this variable
-   #fetch all the reasons for the alarm signal from server
-   # try:
-   #   url="http://+config.SERVER_IP+ config.SERVER_ENDPOINT_START +"/GetAlarmReasonsList"      
-   #   res=req.get(url,timeout=2)
-   #   datas=res.json()
-   #   print(datas)
-   #   result=alarmReasons.query.get(id=1)
-   #   if(result!=None):
-   #      for data in datas:
-   #         reasonsObj=alarmReasons(reasons=data['Reasons'])
-   #         db.session.add(reasonsObj)
-   #         db.session.commit()
-   # except Exception as e:
-   #    print("something went wrong with alarm reasons",e)     
     
-   #load all the other settings data like machineId,idleTimeout from local db to store in session variable      
    data={}
    try:
       result=otherSettings.query.get(1)
@@ -125,6 +109,14 @@ def loadScreen():
           holdingPin = result.holdingRelay
       else:
           print("no other settings data in database")
+
+      #get the server ip from local database
+      result=serverConf.query.get(1)
+      if(result!=None):
+          data['serverIp'] = result.ip
+      else:
+          print("no other settings data in database")
+              
       return jsonify({"result": {"message":"success","status":1,"data":data}})      
    except Exception as e:
       print(e) 
