@@ -47,11 +47,13 @@ def getCurrentSignal(self,InputPin,processOn,processOff):
         if process=="alarmON":
             updateLiveStatus(self,LIVE_STATUS_CODES['alarm'],"Alarm","red")
             holdMachine(self,)
+            jobProgress(self,"finished")
         elif process=="machineON":
             updateLiveStatus(self,LIVE_STATUS_CODES['machineIdle'],"Machine Idle","orange")
             holdMachine(self,)
         elif process=="emergencyON":
             updateLiveStatus(self,LIVE_STATUS_CODES['emergency'],"Emergency","red")
+            jobProgress(self,"finished")
         elif process=="cycleON":
             TEMP_PRODUCTION_ARRAY.clear()
             TEMP_PRODUCTION_ARRAY.append(process)
