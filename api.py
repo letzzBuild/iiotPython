@@ -52,7 +52,7 @@ except Exception as e:
     holdingStatus="ByPass Machine"
 
 # GET UP GPIO PINS OF RASPBERRY PI
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 GPIO.setup(holdingPin,GPIO.OUT)
 
 #SHUTDOWN FEATURE 
