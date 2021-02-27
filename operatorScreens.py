@@ -115,8 +115,8 @@ def loadScreen():
       if(result!=None):
           data['serverIp'] = result.ip
       else:
-          print("no other settings data in database")
-              
+          print("no server ip data in database")
+
       return jsonify({"result": {"message":"success","status":1,"data":data}})      
    except Exception as e:
       print(e) 
