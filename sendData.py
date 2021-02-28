@@ -12,8 +12,9 @@ import configuration as config
 #making a connection with the database
 conn2=sqlite3.connect(config.DATABASENAME)
 
-#create a cursor object to exceute all sql queries
-curs2=conn2.cursor('PRAGMA journal_mode=wal')
+#create a cursor object to execute all sql queries
+curs2=conn2.cursor()
+curs2=conn2.execute('PRAGMA journal_mode=wal')
 
 
 
