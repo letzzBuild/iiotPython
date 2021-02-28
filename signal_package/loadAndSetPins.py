@@ -26,14 +26,14 @@ def getAndSetupPins(self):
 
    print("Initilizing the gpio pins of raspberry pi .....")
    GPIO.setmode(GPIO.BOARD)
-   GPIO.setup(self.machineSignalInputPin,GPIO.IN)
-   GPIO.setup(self.cycleSignalInputPin,GPIO.IN)
-   GPIO.setup(self.m30SignalInputPin,GPIO.IN)
-   GPIO.setup(self.emergencySignalInputPin,GPIO.IN)
-   GPIO.setup(self.resetSignalInputPin,GPIO.IN)
-   GPIO.setup(self.alarmSignalInputPin,GPIO.IN)
-   GPIO.setup(self.runOutNotOkSignalInputPin,GPIO.IN)
-   GPIO.setup(self.spindleSignalInputPin,GPIO.IN)
+   GPIO.setup(self.machineSignalInputPin,GPIO.IN,pull_up_down = GPIO.PUD_UP)
+   GPIO.setup(self.cycleSignalInputPin,GPIO.IN,pull_up_down = GPIO.PUD_UP)
+   GPIO.setup(self.m30SignalInputPin,GPIO.IN,pull_up_down = GPIO.PUD_UP)
+   GPIO.setup(self.emergencySignalInputPin,GPIO.IN,pull_up_down = GPIO.PUD_UP)
+   GPIO.setup(self.resetSignalInputPin,GPIO.IN,pull_up_down = GPIO.PUD_UP)
+   GPIO.setup(self.alarmSignalInputPin,GPIO.IN,pull_up_down = GPIO.PUD_UP)
+   GPIO.setup(self.runOutNotOkSignalInputPin,GPIO.IN,pull_up_down = GPIO.PUD_UP)
+   GPIO.setup(self.spindleSignalInputPin,GPIO.IN,pull_up_down = GPIO.PUD_UP)
    #setting gpio set warnings false 
    GPIO.setwarnings(False)
 
