@@ -13,7 +13,8 @@ def configure(self,databaseName,headers,holdMachineUrl):
 def databaseConnection(self,database):
     CONNECTION = sqlite.connect(database)
     if CONNECTION:
-        CURSOR = CONNECTION.cursor('PRAGMA journal_mode=wal')
+        CURSOR = CONNECTION.cursor()
+        CURSOR.execute('PRAGMA journal_mode=wal')
         print("ESTABLISHED CONNECTION SUCESSFULLY WITH DATABASE")
         self.connection = CONNECTION
         self.cursor = CURSOR
