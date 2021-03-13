@@ -5,6 +5,9 @@ from ._globalVariables import PRODUCTION_ARRAY
 from ._holdMachine import holdMachine
 import RPi.GPIO as GPIO
 
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(11,GPIO.OUT)
+
 #PRODUCTION MATCHING ARRAY
 PRODUCTION_ARRAY=["cycleON","m30OFF"]
 
@@ -45,16 +48,23 @@ def getCurrentSignal(self,InputPin,processOn,processOff):
         setFlagStatus(process,1)
         insertSignalToLocalDb(self,self.machineId,process,timeStamp)
         if process=="alarmON":
+            #Make machine status led low
+            GPIO.output(11, True)
             updateLiveStatus(self,LIVE_STATUS_CODES['alarm'],"Alarm","red")
             holdMachine(self,)
             jobProgress(self,"finished")
+            
         elif process=="machineON":
             updateLiveStatus(self,LIVE_STATUS_CODES['machineIdle'],"Machine Idle","orange")
             holdMachine(self,)
         elif process=="emergencyON":
+            #Make machine status led low
+            GPIO.output(11, True)
             updateLiveStatus(self,LIVE_STATUS_CODES['emergency'],"Emergency","red")
             jobProgress(self,"finished")
         elif process=="cycleON":
+            #Make machine status led high
+            GPIO.output(11,False)
             TEMP_PRODUCTION_ARRAY.clear()
             TEMP_PRODUCTION_ARRAY.append(process)
             updateLiveStatus(self,LIVE_STATUS_CODES['cycle'],"Cycle","green")
@@ -75,6 +85,8 @@ def getCurrentSignal(self,InputPin,processOn,processOff):
             updateLiveStatus(self,LIVE_STATUS_CODES['machineIdle'],"Machine Idle","orange") 
             holdMachine(self,)
         if (process=="cycleOFF"):
+            #Make machine status led low
+            GPIO.output(11, True)
             #update progress of job has finished 
             jobProgress(self,"finished")
 
